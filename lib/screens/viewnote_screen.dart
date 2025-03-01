@@ -47,6 +47,8 @@ class ViewNoteScreen extends StatelessWidget {
     );
   }
 
+
+  //To share content
   void _shareNote(BuildContext context) {
     Share.share(
       '${note.title}\n\n${note.body}',

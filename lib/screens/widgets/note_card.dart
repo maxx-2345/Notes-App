@@ -22,7 +22,7 @@ class NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onView(note),  // it sends to viewnote_screen
-      onLongPress: () => _showDeleteDialog(context),
+      onLongPress: () => _showDeleteDialog(context), //Shows a AlertDialog with with share and delete option
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -49,9 +49,14 @@ class NoteCard extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
-          TextButton(onPressed: (){
+
+          //Share Button on AlertDialog
+          TextButton(
+              onPressed: (){
             onShare();
           }, child: Text("Share",style: TextStyle(color: Colors.green),)),
+
+          //Delete Button on AlertDialog
           TextButton(
             onPressed: () {
               Navigator.pop(context);
@@ -63,6 +68,4 @@ class NoteCard extends StatelessWidget {
       ),
     );
   }
-
-
 }

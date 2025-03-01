@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/note_model.dart';
 class CreateNote extends StatefulWidget {
-  const CreateNote({super.key, required this.onNewNoteCreated});
-
-  final Function(Note) onNewNoteCreated;
-
+  const CreateNote({super.key, required this.home_notes});
+ final List<Note> home_notes;
   @override
   State<CreateNote> createState() => _CreateNoteState();
 }
@@ -13,6 +11,15 @@ class CreateNote extends StatefulWidget {
 class _CreateNoteState extends State<CreateNote> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController bodyController = TextEditingController();
+  List<Note> notes = List.empty(growable: true);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notes= List.from(widget.home_notes);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,11 +75,18 @@ class _CreateNoteState extends State<CreateNote> {
             );
 
             //calling onNewNoteCreated which is on HomeScreen to save note
-            widget.onNewNoteCreated(note);
-            Navigator.of(context).pop();
+            // widget.onNewNoteCreated(note);
+            onNewNoteCreated(note);
+            Navigator.of(context).pop(notes);
           },
           child: Icon(Icons.save),
       ),
     );
+  }
+
+  void onNewNoteCreated(Note note){
+    notes.add(note);
+    setState(() {});
+
   }
 }

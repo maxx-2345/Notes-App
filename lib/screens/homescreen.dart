@@ -12,7 +12,10 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  List<Note> notes = List.empty(growable: true);
+  List<Note> notes = [];
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +79,7 @@ class _HomescreenState extends State<Homescreen> {
       //Button to create note
       floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => CreateNote(onNewNoteCreated: onNewNoteCreated,),
-            ));
+            _navigateCreatenote();
           },
          child: Icon(Icons.add),
       ),
@@ -86,12 +87,19 @@ class _HomescreenState extends State<Homescreen> {
   }
 
   //Function to create a note rest of the logic is on create_note
-  void onNewNoteCreated(Note note){
-    notes.add(note);
-    setState(() {});
+  // void onNewNoteCreated(Note note){
+  //   notes.add(note);
+  //   setState(() {});
+  // }
+
+  void _navigateCreatenote() async{
+    final updateNotes = await Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CreateNote(home_notes:notes)));
+
+      setState(() {
+        notes = updateNotes;
+      });
+
   }
-
-
   // Function to delete a note rest of the logic is on note_card
   void onNoteDeleted(Note note){
     notes.remove(note);
