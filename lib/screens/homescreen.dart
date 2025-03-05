@@ -121,11 +121,21 @@ Future<void> shareContent(Note note) async{
 
 
 //Function to view note on a separate screen => viewnote_screen
-  void viewNote(Note note) {
-    Navigator.push(
+  void viewNote(Note note) async {
+    final updatedNote = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewNoteScreen(note: note),
+        builder: (context) => ViewNoteScreen(
+          note: note,
+          onUpdate: (updatedNote) {
+            setState(() {
+              int index = notes.indexWhere((n) => n.id == updatedNote.id);
+              if (index != -1) {
+                notes[index] = updatedNote; // Update the note
+              }
+            });
+          },
+        ),
       ),
     );
   }

@@ -30,8 +30,8 @@ class NoteCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(note.title, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25)),
-              Text(note.body, style: TextStyle(fontSize: 20)),
-            ],
+              Text(note.body, maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 20,),
+              )],
           ),
         ),
       ),

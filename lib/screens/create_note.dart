@@ -28,33 +28,39 @@ class _CreateNoteState extends State<CreateNote> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-
-            //TextFormField for title input from user
-            TextFormField(
-              style: TextStyle(fontSize: 25),
-              controller: titleController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Title",
-                hintStyle: TextStyle(color: Colors.grey,fontSize: 25),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+          
+              //TextFormField for title input from user
+              TextFormField(
+                maxLength: 15,
+                style: TextStyle(fontSize: 25),
+                controller: titleController,
+                decoration: InputDecoration(
+          
+                  border: InputBorder.none,
+                  hintText: "Title",
+                  hintStyle: TextStyle(color: Colors.grey,fontSize: 25),
+                ),
               ),
-            ),
-
-            const SizedBox(height: 10,),
-
-            //TextFormField for body input from user
-            TextFormField(
-              style: TextStyle(fontSize: 20),
-              controller: bodyController,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Note",
-                hintStyle: TextStyle(color: Colors.grey,fontSize: 25),
+          
+              const SizedBox(height: 10,),
+          
+              //TextFormField for body input from user
+              TextFormField(
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
+                style: TextStyle(fontSize: 20),
+                controller: bodyController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Note",
+                  hintStyle: TextStyle(color: Colors.grey,fontSize: 25),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
 
@@ -62,9 +68,11 @@ class _CreateNoteState extends State<CreateNote> {
       floatingActionButton: FloatingActionButton(
           onPressed: (){
             if(titleController.text.isEmpty){
-              return;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter title")));
+              return ;
             }
             if(bodyController.text.isEmpty){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your thoughts")));
               return;
             }
             // In the FloatingActionButton's onPressed:
