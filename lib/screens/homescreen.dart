@@ -13,10 +13,29 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen> {
   List<Note> notes = [];
+ String searchQuery = "";
+
+TextEditingController searchController = TextEditingController();
+
+List<Note> get filteredNotes {
+  if(searchQuery.isEmpty){
+    return notes;
+  }
+
+  return notes.where((note) =>
+      note.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
+      note.body.toLowerCase().contains(searchQuery.toLowerCase())
+  ).toList();
 
 
+}
+@override
+  void dispose() {
+    // TODO: implement dispose
+  searchController.dispose();
+    super.dispose();
 
-
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,16 +83,55 @@ class _HomescreenState extends State<Homescreen> {
           ),
         ],
       ),
-      body:ListView.builder(
-        itemCount: notes.length,
-          itemBuilder: (context,index){
-          return NoteCard(
-              note: notes[index],
-              onDelete: () => onNoteDeleted(notes[index]),
-              onShare: () => shareContent(notes[index]),
-              onView: (note) => viewNote(notes[index]),
-          );
-          }
+      body:Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: "Search notes",
+                hintStyle: TextStyle(color: Colors.grey,fontSize: 20),
+                border: OutlineInputBorder(),
+                suffixIcon: searchQuery.isNotEmpty ?
+                IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: (){
+                searchController.clear();
+                setState(() {
+                  searchQuery = '';
+                });
+              },
+              ) : null
+              ),
+             onChanged: (value) {
+               searchQuery=  value;
+             },
+            ),
+          ),
+
+          if(searchQuery.isNotEmpty && filteredNotes.isEmpty)
+            Padding(
+                padding: EdgeInsets.all(8),
+                    child: Text("No notes found \"$searchQuery\"",style: TextStyle(fontSize: 16,color: Colors.grey),),
+            ),
+
+
+
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredNotes.length,
+                itemBuilder: (context,index){
+                return NoteCard(
+                    note: filteredNotes[index],
+                    onDelete: () => onNoteDeleted(filteredNotes[index]),
+                    onShare: () => shareContent(filteredNotes[index]),
+                    onView: (note) => viewNote(filteredNotes[index]),
+                );
+                }
+            ),
+          ),
+        ],
       ),
 
       //Button to create note
