@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import '../models/note_model.dart';
 class CreateNote extends StatefulWidget {
   const CreateNote({super.key, required this.home_notes});
@@ -67,6 +67,11 @@ class _CreateNoteState extends State<CreateNote> {
       //Button to save new or created note
       floatingActionButton: FloatingActionButton(
           onPressed: (){
+            _formattedMyDate(DateTime.now());
+            print("datetime: ${ DateTime.now()}");
+            // dd-mm-yyy
+            // dd-mm-yy
+            //
             if(titleController.text.isEmpty){
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter title")));
               return ;
@@ -75,8 +80,10 @@ class _CreateNoteState extends State<CreateNote> {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please enter your thoughts")));
               return;
             }
+            String formatted = DateFormat('dd/MM/yyyy hh:mm aaa').format(DateTime.now());
             // In the FloatingActionButton's onPressed:
             final note = Note(
+              createdDate: formatted,
               id: DateTime.now().millisecondsSinceEpoch.toString(), // Generate unique ID
               title: titleController.text,
               body: bodyController.text,
@@ -92,6 +99,12 @@ class _CreateNoteState extends State<CreateNote> {
     );
   }
 
+  String _formattedMyDate(DateTime date){
+    DateTime currentDate = DateTime.now();
+    String formattedDate = DateFormat('dd/MM/yyyy hh:mm aaa').format(currentDate);
+    print("formattedDate:: $formattedDate");
+    return formattedDate;
+  }
   void onNewNoteCreated(Note note){
     notes.add(note);
     setState(() {});

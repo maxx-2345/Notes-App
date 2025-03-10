@@ -45,6 +45,7 @@ class _ViewNoteScreenState extends State<ViewNoteScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text("Created Date: ${widget.note.createdDate}"),
             TextField(
               controller: titleController,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -76,6 +77,7 @@ class _ViewNoteScreenState extends State<ViewNoteScreen> {
     if (isEditing) {
       // Save the updated note and pass it back
       widget.onUpdate(Note(
+        createdDate: widget.note.createdDate,
         id: widget.note.id,
         title: titleController.text,
         body: bodyController.text,
