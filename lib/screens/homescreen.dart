@@ -106,7 +106,10 @@ List<Note> get filteredNotes {
               ) : null
               ),
              onChanged: (value) {
-               searchQuery=  value;
+                setState(() {
+                  searchQuery =  value;
+                });
+
              },
             ),
           ),
